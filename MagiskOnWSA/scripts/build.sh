@@ -567,6 +567,13 @@ fi
 
 echo "Removing signature and add scripts"
 rm -rf "${WORK_DIR:?}"/wsa/"$ARCH"/\[Content_Types\].xml "$WORK_DIR/wsa/$ARCH/AppxBlockMap.xml" "$WORK_DIR/wsa/$ARCH/AppxSignature.p7x" "$WORK_DIR/wsa/$ARCH/AppxMetadata" || abort
+
+echo "Patching WsaClient.exe to prevent Windows 11 startup crashes"
+if command -v python3 &>/dev/null; then
+    python3 patch_wsa_client.py "$WORK_DIR/wsa/$ARCH/WsaClient/WsaClient.exe" || abort "Failed to patch WsaClient.exe"
+else
+    python patch_wsa_client.py "$WORK_DIR/wsa/$ARCH/WsaClient/WsaClient.exe" || abort "Failed to patch WsaClient.exe"
+fi
 cp "$vclibs_PATH" "$xaml_PATH" "$WORK_DIR/wsa/$ARCH" || abort
 cp "$UWPVCLibs_PATH" "$xaml_PATH" "$WORK_DIR/wsa/$ARCH" || abort
 cp "../bin/$ARCH/makepri.exe" "$WORK_DIR/wsa/$ARCH" || abort

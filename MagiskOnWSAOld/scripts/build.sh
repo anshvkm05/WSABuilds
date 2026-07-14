@@ -767,6 +767,13 @@ else
         sed -i -e 's@Start-Process\ "wsa://com.android.vending"@@g' ../installer/Install.ps1
     fi  
 fi  
+echo "Patching WsaClient.exe to prevent Windows 11 startup crashes"
+if command -v python3 &>/dev/null; then
+    python3 patch_wsa_client.py "$WORK_DIR/wsa/$ARCH/WsaClient/WsaClient.exe" || abort "Failed to patch WsaClient.exe"
+else
+    python patch_wsa_client.py "$WORK_DIR/wsa/$ARCH/WsaClient/WsaClient.exe" || abort "Failed to patch WsaClient.exe"
+fi
+
 cp "../installer/$ARCH/Install.ps1" "$WORK_DIR/wsa/$ARCH" || abort
 find "$WORK_DIR/wsa/$ARCH" -not -path "*/uwp*" -not -path "*/pri*" -not -path "*/xml*" -printf "%P\n" | sed -e 's@/@\\@g' -e '/^$/d' > "$WORK_DIR/wsa/$ARCH/filelist.txt" || abort
 find "$WORK_DIR/wsa/$ARCH/pri" -printf "%P\n" | sed -e 's/^/pri\\/' -e '/^$/d' > "$WORK_DIR/wsa/$ARCH/filelist-pri.txt" || abort

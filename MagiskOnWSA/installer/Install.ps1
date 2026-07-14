@@ -81,6 +81,11 @@ ElseIf (($args.Count -Eq 1) -And ($args[0] -Eq "EVAL")) {
 }
 
 $FileList = Get-Content -Path .\filelist.txt
+$FileList | ForEach-Object {
+    if ($_ -eq "apex" -and -not (Test-Path $_)) {
+        New-Item -ItemType Directory -Force -Path $_ | Out-Null
+    }
+}
 If (((Test-Path -Path $FileList) -Eq $false).Count) {
     Write-Error "Some files are missing in the folder. Please try to build again. Press any key to exit"
     $null = $Host.UI.RawUI.ReadKey('NoEcho,IncludeKeyDown')
@@ -161,6 +166,30 @@ If (Test-CommandExist WsaClient) {
     Start-Process WsaClient -Wait -Args "/shutdown"
 }
 Stop-Process -Name "WsaClient" -ErrorAction SilentlyContinue
+
+# Patch for GApps crash (E_ACCESSDENIED in AppUriHandlerRegistrationManager.UpdateAsync)
+$WsaClientDir = Join-Path $PSScriptRoot "WsaClient"
+$WinHttpDll = Join-Path $WsaClientDir "winhttp.dll"
+$WsaPatchDll = Join-Path $WsaClientDir "WsaPatch.dll"
+$IcuDll = Join-Path $WsaClientDir "icu.dll"
+
+if (-not (Test-Path $WinHttpDll) -or -not (Test-Path $WsaPatchDll) -or -not (Test-Path $IcuDll)) {
+    Write-Output "Downloading patch DLLs to prevent GApps crashes on Windows 11/10..."
+    $ProgressPreference = 'SilentlyContinue'
+    try {
+        if (-not (Test-Path $WsaClientDir)) {
+            New-Item -ItemType Directory -Force -Path $WsaClientDir | Out-Null
+        }
+        Invoke-WebRequest -Uri "https://github.com/MustardChef/WSAPatch/raw/main/DLLs%20for%20WSABuilds/winhttp.dll" -OutFile $WinHttpDll -ErrorAction Stop
+        Invoke-WebRequest -Uri "https://github.com/MustardChef/WSAPatch/raw/main/DLLs%20for%20WSABuilds/WsaPatch.dll" -OutFile $WsaPatchDll -ErrorAction Stop
+        Invoke-WebRequest -Uri "https://github.com/MustardChef/WSAPatch/raw/main/DLLs%20for%20WSABuilds/icu.dll" -OutFile $IcuDll -ErrorAction Stop
+        Write-Output "Successfully downloaded patch DLLs."
+    }
+    catch {
+        Write-Warning "Failed to download patch DLLs: $_. Subsystem might crash if GApps is enabled."
+    }
+}
+
 Write-Output "Installing MagiskOnWSA...."
 Add-AppxPackage -ForceApplicationShutdown -ForceUpdateFromAnyVersion -Register .\AppxManifest.xml
 If ($?) {
