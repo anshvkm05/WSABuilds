@@ -7,7 +7,7 @@
 >
 > <h2>If you are affecting by this issue, try below fix </h2>
 > <ul>      
->   <li><h4> Go to <a href="https://github.com/anshvkm05/WSABuilds/releases">release</a> page of this repo  and downlaod the patched released version of it, it should work fine now </h4></li> 
+>   <li><h4> Go to <a href="https://github.com/anshvkm05/WSABuilds/releases">release</a> page of this repo  and download the patched released version of it, it should work fine now </h4></li> 
 >   <li><h4> RECOMMENDED FIX FOR BUILDS CONTAINING GAPPS (Google Play Store and Services): https://github.com/MustardChef/WSABuilds/issues/593#issuecomment-3172749449 </h4></li>
 >   <li><h4> Switch/Use the builds which do not contain GApps. These are the builds that contain <code>NoGApps</code> in their .7z archive names. </h4></li> 
 >   <li><h4> Really old builds of WSA (2211/2210) are known to be working. </h4></li> 
