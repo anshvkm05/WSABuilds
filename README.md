@@ -1,14 +1,14 @@
 > [!CAUTION]
 >
-> <h1> Hello. Before you proceed to install WSA, it is important to note that WSA has been having some issues for the past year, where GApps builds have begun crashing on all Windows 11 builds after June 2025. </h1>
+> <h1> Hello Guys this is a forked repo from <a href="https://github.com/MustardChef/WSABuilds">@MustardChef</a>. Before you proceed to install WSA, it is important to note that WSA has been having some issues for the past year, where GApps builds have begun crashing on all Windows 11 builds after June 2025. I created a fix for it as given below in detail </h1>
 > <h1> Fixes and upgrades are being worked on to resolve all bugs and crashes (in the form of https://github.com/MustardChef/WSABuilds/issues/700). </h1>
 > 
 > <br/>
 >
-> <h2>If you are affecting by this issue, try these current workarounds in the meantime:</h2>
-> <ul>
->   <li><h4> RECOMMENDED FIX FOR BUILDS CONTAINING GAPPS (Google Play Store and Services): https://github.com/MustardChef/WSABuilds/issues/593#issuecomment-3172749449 </h4></li> 
->       OR
+> <h2>If you are affecting by this issue, try below fix </h2>
+> <ul>      
+>   <li><h4> Go to <a href="https://github.com/anshvkm05/WSABuilds/releases">release</a> page of this repo  and downlaod the patched released version of it, it should work fine now </h4></li> 
+>   <li><h4> RECOMMENDED FIX FOR BUILDS CONTAINING GAPPS (Google Play Store and Services): https://github.com/MustardChef/WSABuilds/issues/593#issuecomment-3172749449 </h4></li>
 >   <li><h4> Switch/Use the builds which do not contain GApps. These are the builds that contain <code>NoGApps</code> in their .7z archive names. </h4></li> 
 >   <li><h4> Really old builds of WSA (2211/2210) are known to be working. </h4></li> 
 > </ul>
